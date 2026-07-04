@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Prestataire;
 use App\Http\Controllers\Controller;
 use App\Models\Appointment;
 use App\Models\Schedule;
+use Illuminate\Http\Request; 
 
 class PrestataireController extends Controller
 {

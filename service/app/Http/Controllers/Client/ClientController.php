@@ -37,13 +37,20 @@ class ClientController extends Controller
 
     public function search()
     {
-        $prestataires = User::where('role', 'prestataire')
-            ->where('is_active', true)
-            ->with('services')
-            ->get();
+    $query = User::where('role', 'prestataire')
+        ->where('is_active', true)
+        ->with('services');
 
-        $categories = ['coiffeur', 'dentiste', 'coach', 'medecin', 'autre'];
+    // Filter par catégorie
+    if (request('category')) {
+        $query->whereHas('services', function($q) {
+            $q->where('category', request('category'));
+        });
+    }
 
-        return view('client.search', compact('prestataires', 'categories'));
+    $prestataires = $query->get();
+    $categories = ['coiffeur', 'dentiste', 'coach', 'medecin', 'autre'];
+
+    return view('client.search', compact('prestataires', 'categories'));
     }
 }
